@@ -13,6 +13,7 @@ from urllib.request import urlopen
 import json
 from path_url import Path_URL
 from setting_dashboard import Setting_dashboard
+import SDL_DS3231
 
 
 setting_mode = Setting_mode
@@ -27,6 +28,8 @@ setting_substance = Setting_substance
 path_file = Path_URL
 setting_dashboard = Setting_dashboard
 
+ds3231 = SDL_DS3231.SDL_DS3231(6, 0x68)
+
 machine_code = ""
 path_url = path_file.path_local+"api/Rest_api/get_data_setting"
 while True:
@@ -34,8 +37,18 @@ while True:
         read_machine_code = open("/home/linaro/machine_code/machine_code.txt", "r")
         machine_code = read_machine_code.read().rstrip('\n')
         if machine_code != '':
-            now = datetime.now()
-            dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
+            modult_rtc = str(ds3231.read_datetime())
+
+            # print(get_i2c)
+            split_date_time_rtc = modult_rtc.split(" ") 
+            split_date_rtc = split_date_time_rtc[0].split("-")
+            split_time_rtc = split_date_time_rtc[1].split(":")
+            # print(split_date)
+            # print(split_time)
+            system_time = datetime(int(split_date_rtc[0]), int(split_date_rtc[1]), int(split_date_rtc[2]), int(split_time_rtc[0]), int(split_time_rtc[1]), int(split_time_rtc[2]))
+
+            # now = datetime.now()
+            dt_string = system_time.strftime("%Y-%m-%d %H:%M:%S")
             response = urlopen(path_url)
             data_json = json.loads(response.read())
             if int(data_json[0]['online_status']) == 1:
