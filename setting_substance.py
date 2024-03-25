@@ -17,8 +17,8 @@ class Setting_substance:
         mydb = connect_db.update_setting_mode()
 
         mycursor = mydb.cursor()
-        ph_main_status =  'top' if data_json[0]['ph_main_status'] != '' else  data_json[0]['ph_main_status']
-        sql = "UPDATE substance SET ph_set = "+data_json[0]['ph_set']+", ph_lower = "+data_json[0]['ph_lower']+", ph_inj = "+data_json[0]['ph_inj']+", ph_freq = "+data_json[0]['ph_freq']+", orp_set = "+data_json[0]['orp_set']+", orp_lower = "+data_json[0]['orp_lower']+", orp_inj = "+data_json[0]['orp_inj']+", orp_freq = "+data_json[0]['orp_freq']+", apf_set = "+data_json[0]['apf_set']+", apf_lower = "+data_json[0]['apf_lower']+", apf_inj = "+data_json[0]['apf_inj']+", apf_freq = "+data_json[0]['apf_freq']+", ph_main_status = "+ph_main_status+" WHERE substance_id = 1"
+        ph_main_status =  'top' if data_json[0]['ph_main_status'] == '' else  data_json[0]['ph_main_status']
+        sql = "UPDATE substance SET ph_set = "+data_json[0]['ph_set']+", ph_lower = "+data_json[0]['ph_lower']+", ph_inj = "+data_json[0]['ph_inj']+", ph_freq = "+data_json[0]['ph_freq']+", orp_set = "+data_json[0]['orp_set']+", orp_lower = "+data_json[0]['orp_lower']+", orp_inj = "+data_json[0]['orp_inj']+", orp_freq = "+data_json[0]['orp_freq']+", apf_set = "+data_json[0]['apf_set']+", apf_lower = "+data_json[0]['apf_lower']+", apf_inj = "+data_json[0]['apf_inj']+", apf_freq = "+data_json[0]['apf_freq']+", ph_main_status = '"+ph_main_status+"' WHERE substance_id = 1"
         
         mycursor.execute(sql)
         mydb.commit()
